@@ -1,16 +1,21 @@
-# techguess
+- Nama : Luthfi Zahran Panggabean
+- NIM  : 231401082
+- Lab  : Pemrograman Mobile 2
 
-A tech themed multiple choice quiz app
+# TechGuess
 
-## Getting Started
+Sebuah aplikasi kuis pilihan berganda berisikan tentang semua hal yang berkaitan dengan teknologi, mulai dari produk yang dikembangkan oleh perusahaan tech hingga bagaimana sesuatu bekerja
 
-This project is a starting point for a Flutter application.
+## Fitur utama
+- TechGuess memiliki pertanyaan yang masing-masing mempunyai 5 opsi (A,B,C,D,E).
+- Masing-masing pertanyaan memiliki level kesulitan, mulai dari "easy" sampai dengan "hard"
+- Setelah menjawab semua soal, maka aplikasi akan menampilkan hasil skor pengguna dengan rank yang tertentu tergantung pada persentase kesuksesan user
+- TechGuess memiliki opsi dark mode sebagai default yang bisa diganti menjadi light mode
 
-A few resources to get you started if this is your first Flutter project:
+## Sumber Aset
+- **Main Font** : DM Sans https://fonts.google.com/specimen/DM+Sans
+- **Bold Font** : Angkor https://fonts.google.com/specimen/Angkor
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Mockup Aplikasi
+https://www.figma.com/design/WgIk8LN6Weqw665NQqT1QU/TechGuess?node-id=0-1&t=dPVZAIXs4YaZDm6k-1
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
