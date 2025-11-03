@@ -11,7 +11,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class InfoScreen extends StatelessWidget {
-  const InfoScreen({super.key});
+  final VoidCallback onNext;
+  const InfoScreen({super.key, required this.onNext});
 
   @override
   Widget build(BuildContext context){
@@ -51,7 +52,6 @@ class InfoScreen extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 33),
-          // --- ABOUT CARD ---
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 33),
             decoration: ShapeDecoration(
@@ -110,15 +110,7 @@ class InfoScreen extends StatelessWidget {
             padding: const EdgeInsets.all(33.0), // Add padding only at the bottom
             child: NavButton(
               text: 'Next',
-              onTap: () {
-                Navigator.of(context).push(
-                  PageTransition(
-                    child: const LoginScreen(),
-                    type: PageTransitionType.fade,
-                    duration: const Duration(milliseconds: 300),
-                  ),
-                );
-              },
+              onTap: onNext
             ).animate().fadeIn(duration: 400.ms, delay: 100.ms).slideY(begin: 0.1, end: 0, curve: Curves.easeInOut),
           ),
           ),

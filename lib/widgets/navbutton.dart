@@ -11,7 +11,7 @@ class NavButton extends StatelessWidget {
   const NavButton({
     super.key,
     required this.onTap,
-    required this.text, // <-- 2. Make it a required parameter
+    required this.text,
   });
 
   @override

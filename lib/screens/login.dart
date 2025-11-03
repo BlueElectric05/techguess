@@ -1,14 +1,22 @@
-// lib/screens/login.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:techguess/screens/info.dart';
 import 'package:techguess/widgets/appbar.dart';
 import 'package:techguess/widgets/navbutton.dart';
 import 'package:techguess/utils/colors.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final Function(String) onLogin;
+  final VoidCallback onBack;
+
+  const LoginScreen({
+    super.key,
+    required this.onLogin,
+    required this.onBack
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -16,9 +24,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController _nameController;
-  String _userName = '';
-
-  final GlobalKey _nextButtonKey = GlobalKey();
 
   @override
   void initState() {
@@ -32,12 +37,15 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _recordUserName() {
-    setState(() {
-      _userName = _nameController.text;
-    });
-    print('User name recorded: $_userName');
-    // TODO: Navigate to the next screen
+  // This function now calls the onLogin callback
+  void _submitLogin() {
+    if (_nameController.text.trim().isNotEmpty) {
+      widget.onLogin(_nameController.text.trim());
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter your name!')),
+      );
+    }
   }
 
   @override
@@ -52,8 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(
               margin: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              child: SvgPicture.asset('lib/assets/icons/dark_mode.svg',
-                  height: 30, width: 30),
+              child: SvgPicture.asset('lib/assets/icons/dark_mode.svg', height: 30, width: 30),
             ),
           ),
         ],
@@ -65,21 +72,18 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildBody() {
     return Container(
       width: double.infinity,
+      height: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF2D2D3A),
-              Color(0xFF1F1F26),
-            ]),
+            colors: [Color(0xFF2D2D3A), Color(0xFF1F1F26)]),
       ),
       child: Column(
         children: [
           const SizedBox(height: 33),
           _buildInfoCard(),
           _buildNavigation(),
-          const SizedBox(height: 40),
         ],
       ),
     );
@@ -88,94 +92,66 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildInfoCard() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 33),
+      padding: const EdgeInsets.all(38.0),
       decoration: ShapeDecoration(
+        color: mainColor,
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(55.0),
-          side: BorderSide(color: Colors.white.withOpacity(0.3), width: 1),
+          side: BorderSide(color: Colors.white.withOpacity(0.2), width: 1),
         ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(38.0),
-        decoration: ShapeDecoration(
-          color: mainColor,
-          shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.circular(55.0),
-          ),
-          shadows: [
-            BoxShadow(
+        shadows: [
+          BoxShadow(
               color: Colors.black.withOpacity(0.2),
               offset: const Offset(0, 3),
               spreadRadius: 5,
-              blurRadius: 7,
-            )
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Register',
-              style: GoogleFonts.angkor(
-                color: textColor,
-                fontSize: 20,
+              blurRadius: 7)
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Register', style: GoogleFonts.angkor(color: textColor, fontSize: 20)),
+          const SizedBox(height: 15),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: ShapeDecoration(
+              color: secondColor,
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+                side: BorderSide(color: Colors.white.withOpacity(0.3), width: 1),
               ),
             ),
-            const SizedBox(height: 15),
-            Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              decoration: ShapeDecoration(
-                color: secondColor,
-                shape: ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(color: Colors.white.withOpacity(0.3), width: 1),
-                ),
+            child: TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                hintText: 'Insert your name here',
+                hintStyle: GoogleFonts.dmSans(color: hintColor, fontSize: 15),
+                border: InputBorder.none,
               ),
-              child: TextField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  hintText: 'Insert your name here',
-                  hintStyle: GoogleFonts.dmSans(
-                    color: hintColor,
-                    fontSize: 15,
-                  ),
-                  border: InputBorder.none,
-                ),
-                style: GoogleFonts.dmSans(
-                  color: textColor,
-                  fontSize: 15,
-                  height: 1.5,
-                ),
-              ),
-            )
-          ],
-        ),
+              style: GoogleFonts.dmSans(color: textColor, fontSize: 15, height: 1.5),
+            ),
+          )
+        ],
       ),
-    );
+    ).animate().fadeIn(duration: 400.ms, delay: 50.ms).slideY(begin: 0.1, end: 0, curve: Curves.easeInOut);
   }
 
   Widget _buildNavigation() {
     return Padding(
       padding: const EdgeInsets.all(33.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Only need the "Next" button effectively
         children: [
           NavButton(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
+            onTap: widget.onBack,
             text: 'Back',
           ),
-
-          GestureDetector(
-            key: _nextButtonKey,
-            onTap: _recordUserName,
-            child: NavButton(
-              onTap: _recordUserName,
-              text: 'Next',
-            ),
+          NavButton(
+            onTap: _submitLogin,
+            text: 'Next',
           ),
         ],
-      ),
+      ).animate().fadeIn(duration: 400.ms, delay: 150.ms).slideY(begin: 0.1, end: 0, curve: Curves.easeInOut),
     );
   }
 }
