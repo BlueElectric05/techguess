@@ -8,7 +8,6 @@ void main() {
   runApp(const MyApp());
 }
 
-// Data model for a single question
 class Question {
   final String text;
   final List<String> choices;
@@ -51,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   final List<Question> _questions = [
     Question(
         text: 'Which company developed the "M1" chip?',
-        choices: ['Intel', 'AMD', 'Apple', 'NVIDIA'],
+        choices: ['A. Intel', 'B. AMD', 'C. Apple', 'D. NVIDIA', 'E. Nintendo'],
         correctChoiceIndex: 2,
         difficulty: 'easy'),
     Question(

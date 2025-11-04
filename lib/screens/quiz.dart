@@ -8,7 +8,7 @@ class QuizScreen extends StatefulWidget {
   final String userName;
   final List<Question> questions;
   final VoidCallback onQuizComplete; // Function to call when quiz ends
-  final VoidCallback onAnswerCorrect;  // Function to call for a correct answer
+  final VoidCallback onAnswerCorrect; // Function to call for a correct answer
 
   const QuizScreen({
     super.key,
@@ -25,7 +25,8 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   late PageController _pageController;
   int _currentQuestionIndex = 0;
-  int? _selectedChoiceIndex; // Tracks the user's choice for the current question
+  int?
+  _selectedChoiceIndex; // Tracks the user's choice for the current question
 
   @override
   void initState() {
@@ -49,7 +50,8 @@ class _QuizScreenState extends State<QuizScreen> {
     });
 
     // Check if the answer is correct and call the callback from main.dart
-    if (choiceIndex == widget.questions[_currentQuestionIndex].correctChoiceIndex) {
+    if (choiceIndex ==
+        widget.questions[_currentQuestionIndex].correctChoiceIndex) {
       widget.onAnswerCorrect();
     }
 
@@ -62,9 +64,7 @@ class _QuizScreenState extends State<QuizScreen> {
           curve: Curves.easeInOut,
         );
       } else {
-        // This is the last question, so complete the quiz
         widget.onQuizComplete();
-        // The navigation will be handled by MyApp's state change
       }
     });
   }
@@ -72,10 +72,7 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'TechGuess',
-        backgroundColor: mainColor,
-      ),
+      appBar: CustomAppBar(title: 'TechGuess', backgroundColor: mainColor),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -107,101 +104,134 @@ class _QuizScreenState extends State<QuizScreen> {
 
   // Builds the UI for a single question
   Widget _buildQuestionCard(Question question) {
-    return Padding(
-      padding: const EdgeInsets.all(33.0),
-      child: Container(
-        decoration: ShapeDecoration(
-          shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.circular(55.0),
-            side: BorderSide(color: Colors.white.withOpacity(0.3), width: 1),
-          ),
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(38.0),
-          decoration: ShapeDecoration(
-            color: mainColor,
-            shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.circular(55.0),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 33.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // The Question Card ---
+          Container(
+            margin: const EdgeInsets.only(top: 33.0), // Give it some space from the top
+            decoration: ShapeDecoration(
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(55.0),
+                side: BorderSide(color: Colors.white.withOpacity(0.3), width: 1),
+              ),
             ),
-            shadows: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                offset: const Offset(0, 3),
-                spreadRadius: 5,
-                blurRadius: 7,
-              )
-            ],
-          ),
-          // 1. WRAP THE COLUMN WITH A SingleChildScrollView
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Question ${_currentQuestionIndex + 1}/${widget.questions.length}',
-                  style: GoogleFonts.angkor(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+            child: Container(
+              padding: const EdgeInsets.all(38.0),
+              decoration: ShapeDecoration(
+                color: mainColor,
+                shape: ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.circular(55.0),
                 ),
-                Text(
-                  'Difficulty: ${question.difficulty}',
-                  style: GoogleFonts.dmSans(
+                shadows: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(0, 3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                  )
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Question ${_currentQuestionIndex + 1}/${widget.questions.length}',
+                    style: GoogleFonts.angkor(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Difficulty: ${question.difficulty}',
+                    style: GoogleFonts.dmSans(
                       color: Colors.white,
                       fontSize: 10,
-                      fontWeight: FontWeight.normal
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 15),
-                Text(
-                  question.text,
-                  style: GoogleFonts.dmSans(color: Colors.white, fontSize: 15, height: 1.4),
-                ),
-                const SizedBox(height: 20),
-
-                // Image display
-                if (question.imageUrl != null && question.imageUrl!.isNotEmpty)
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 20),
-                      height: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                          image: NetworkImage(question.imageUrl!),
-                          fit: BoxFit.contain,
+                  const SizedBox(height: 15),
+                  Text(
+                    question.text,
+                    style: GoogleFonts.dmSans(
+                      color: Colors.white,
+                      fontSize: 15,
+                      height: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Image display (remains inside the card)
+                  if (question.imageUrl != null && question.imageUrl!.isNotEmpty)
+                    Center(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 20),
+                        height: 150,
+                        decoration: ShapeDecoration(
+                          shape: ContinuousRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          image: DecorationImage(
+                            image: NetworkImage(question.imageUrl!),
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-
-                // Add some space before the choices
-                const SizedBox(height: 20),
-
-                // Generate choice buttons
-                ...List.generate(question.choices.length, (index) {
-                  return _buildChoiceButton(
-                    text: question.choices[index],
-                    index: index,
-                  );
-                }),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
+
+          // --- Part 2: The Choice Buttons ---
+          // This section is now outside the question card, but inside the main Column.
+          const SizedBox(height: 33),
+
+          // 1. ADD THE NEW CONTAINER WRAPPER HERE
+          Container(
+            padding: const EdgeInsets.all(15.0),
+            decoration: ShapeDecoration(
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(55.0),
+                side: BorderSide(
+                  color: Colors.white.withOpacity(0.2),
+                  width: 1,
+                  ),
+                ),
+              color: mainColor,
+              shadows: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  offset: const Offset(0, 3),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                )
+              ],
+            ),
+            child: Column(
+              children: List.generate(question.choices.length, (index) {
+                return _buildChoiceButton(
+                  text: question.choices[index],
+                  index: index,
+                );
+              }),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  // Builds a single choice button with dynamic coloring
-// Builds a single choice button with dynamic coloring
+
   Widget _buildChoiceButton({required String text, required int index}) {
     Color buttonColor = secondColor;
     bool isSelected = _selectedChoiceIndex == index; // <-- CORRECTED
-    bool isCorrect = index == widget.questions[_currentQuestionIndex].correctChoiceIndex;
+    bool isCorrect =
+        index == widget.questions[_currentQuestionIndex].correctChoiceIndex;
 
-    if (_selectedChoiceIndex != null) { // If an answer has been given
+    if (_selectedChoiceIndex != null) {
       if (isSelected) {
         buttonColor = isCorrect ? Colors.green.shade700 : Colors.red.shade700;
       } else if (isCorrect) {
@@ -212,16 +242,19 @@ class _QuizScreenState extends State<QuizScreen> {
     return GestureDetector(
       onTap: () => _handleAnswer(index),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
+        width: double.infinity,
+        margin: const EdgeInsets.all(15),
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: buttonColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withOpacity(0.3)),
+          shape: ContinuousRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+            side: BorderSide(color: Colors.white.withOpacity(0.3), width: 2),
+          ),
         ),
         child: Text(
           text,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.left,
           style: GoogleFonts.dmSans(
             color: Colors.white,
             fontSize: 16,
