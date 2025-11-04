@@ -35,7 +35,6 @@ class ResultScreen extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              // Dark mode functionality can be added here later
             },
             child: Container(
               margin: const EdgeInsets.all(10),
@@ -50,7 +49,7 @@ class ResultScreen extends StatelessWidget {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(33),
+        padding: const EdgeInsets.all(33),
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
@@ -63,20 +62,25 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _buildResultsCard(
-                  userName: userName,
-                  finalScore: finalScore.toStringAsFixed(1),
-                  userScore: userScore,
-                  totalQuestions: totalQuestions,
-                )
-                .animate()
-                .fadeIn(duration: 400.ms)
-                .slideY(begin: 0.1, end: 0, curve: Curves.easeInOut),
+            Flexible(
+              child: _buildResultsCard(
+                userName: userName,
+                finalScore: finalScore.toStringAsFixed(1),
+                userScore: userScore,
+                totalQuestions: totalQuestions,
+                rank: rank,
+              )
+                  .animate()
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0, curve: Curves.easeInOut),
+            ),
+
 
             Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: const EdgeInsets.only(top: 33),
+                padding: const EdgeInsets.only(top: 33, bottom: 10),
+                // Add bottom padding
                 child: NavButton(text: 'Play Again', onTap: onPlayAgain)
                     .animate()
                     .fadeIn(duration: 400.ms, delay: 200.ms)
@@ -94,63 +98,67 @@ class ResultScreen extends StatelessWidget {
     required String finalScore,
     required int userScore,
     required int totalQuestions,
+    required String rank,
   }) {
-    return Container(
-      decoration: ShapeDecoration(
-        shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.circular(55.0),
-          side: BorderSide(color: Colors.white.withOpacity(0.3), width: 1),
-        ),
-      ),
+
+    return SingleChildScrollView(
       child: Container(
-        padding: const EdgeInsets.all(38.0),
         decoration: ShapeDecoration(
-          color: mainColor,
           shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.circular(55.0),
+            side: BorderSide(color: Colors.white.withOpacity(0.3), width: 1),
           ),
-          shadows: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              offset: const Offset(0, 3),
-              spreadRadius: 5,
-              blurRadius: 7,
-            ),
-          ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Congratulations, $userName!',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.angkor(color: Colors.white, fontSize: 24),
+        child: Container(
+          padding: const EdgeInsets.all(38.0),
+          decoration: ShapeDecoration(
+            color: mainColor,
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(55.0),
             ),
-            const SizedBox(height: 20),
-            Text(
-              'Rank: $rank',
-              style: GoogleFonts.dmSans(color: textColor, fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              '$finalScore / 10',
-              style: GoogleFonts.dmSans(
-                color: textColor,
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
+            shadows: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                offset: const Offset(0, 3),
+                spreadRadius: 5,
+                blurRadius: 7,
               ),
-            ),
-            const SizedBox(height: 25),
-            Text(
-              'You answered $userScore out of $totalQuestions questions correctly.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                color: textColor,
-                fontSize: 16,
-                height: 1.5,
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Congratulations, $userName!',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.angkor(color: Colors.white, fontSize: 24),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              Text(
+                'Rank: $rank',
+                style: GoogleFonts.dmSans(color: textColor, fontSize: 16),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                '$finalScore / 10',
+                style: GoogleFonts.dmSans(
+                  color: textColor,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Text(
+                'You answered $userScore out of $totalQuestions questions correctly.',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.dmSans(
+                  color: textColor,
+                  fontSize: 16,
+                  height: 1.5,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -43,6 +43,7 @@ class InfoScreen extends StatelessWidget {
   }
 
   Container body(BuildContext context) {
+
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -94,7 +95,7 @@ class InfoScreen extends StatelessWidget {
                       ).animate().fadeIn(delay: 50.ms),
                       const SizedBox(height: 15),
                       Text(
-                        'This is a multiple choice quiz app made to test how deep you are in the tech community, the questions consists on multiple tech brands and what stuff are they producing. Each question consists of 5 different choices, ranging from A to E.',
+                        'This is a multiple choice quiz app made to test how deep you are in the tech community, the questions are all about tech products and the story behind them. Each question consists of 5 different choices, ranging from A to E.',
                         style: GoogleFonts.dmSans(
                           color: Colors.white,
                           fontSize: 16,
