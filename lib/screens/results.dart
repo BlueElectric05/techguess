@@ -24,8 +24,9 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double finalScore =
-    (totalQuestions > 0) ? (userScore / totalQuestions) * 10 : 0;
+    final double finalScore = (totalQuestions > 0)
+        ? (userScore / totalQuestions) * 10
+        : 0;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -39,8 +40,11 @@ class ResultScreen extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              child: SvgPicture.asset('lib/assets/icons/dark_mode.svg',
-                  height: 30, width: 30),
+              child: SvgPicture.asset(
+                'lib/assets/icons/dark_mode.svg',
+                height: 30,
+                width: 30,
+              ),
             ),
           ),
         ],
@@ -51,35 +55,32 @@ class ResultScreen extends StatelessWidget {
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF2D2D3A),
-                Color(0xFF1F1F26),
-              ]),
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF2D2D3A), Color(0xFF1F1F26)],
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-
             _buildResultsCard(
-              userName: userName,
-              finalScore: finalScore.toStringAsFixed(1),
-              userScore: userScore,
-              totalQuestions: totalQuestions,
-            ).animate().fadeIn(duration: 400.ms).slideY(
-                begin: 0.1, end: 0, curve: Curves.easeInOut),
-
+                  userName: userName,
+                  finalScore: finalScore.toStringAsFixed(1),
+                  userScore: userScore,
+                  totalQuestions: totalQuestions,
+                )
+                .animate()
+                .fadeIn(duration: 400.ms)
+                .slideY(begin: 0.1, end: 0, curve: Curves.easeInOut),
 
             Align(
               alignment: Alignment.centerRight,
               child: Padding(
                 padding: const EdgeInsets.only(top: 33),
-                child: NavButton(
-                  text: 'Play Again',
-                  onTap: onPlayAgain,
-                ).animate().fadeIn(duration: 400.ms, delay: 200.ms).slideY(
-                    begin: 0.5, end: 0, curve: Curves.easeInOut),
+                child: NavButton(text: 'Play Again', onTap: onPlayAgain)
+                    .animate()
+                    .fadeIn(duration: 400.ms, delay: 200.ms)
+                    .slideY(begin: 0.5, end: 0, curve: Curves.easeInOut),
               ),
             ),
           ],
@@ -114,7 +115,7 @@ class ResultScreen extends StatelessWidget {
               offset: const Offset(0, 3),
               spreadRadius: 5,
               blurRadius: 7,
-            )
+            ),
           ],
         ),
         child: Column(
@@ -123,18 +124,12 @@ class ResultScreen extends StatelessWidget {
             Text(
               'Congratulations, $userName!',
               textAlign: TextAlign.center,
-              style: GoogleFonts.angkor(
-                color: Colors.white,
-                fontSize: 24,
-              ),
+              style: GoogleFonts.angkor(color: Colors.white, fontSize: 24),
             ),
             const SizedBox(height: 20),
             Text(
               'Rank: $rank',
-              style: GoogleFonts.dmSans(
-                color: textColor,
-                fontSize: 16,
-              ),
+              style: GoogleFonts.dmSans(color: textColor, fontSize: 16),
             ),
             const SizedBox(height: 10),
             Text(
