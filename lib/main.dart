@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:techguess/screens/info.dart';
 import 'package:techguess/screens/login.dart';
 import 'package:techguess/screens/quiz.dart';
+import 'package:techguess/screens/results.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +37,7 @@ class _MyAppState extends State<MyApp> {
   String? _userName;
   int _userScore = 0;
   double? _finalScore;
+  String? rank;
 
   // This string controls which  is currently visible
   String _currentScreen = 'info';
@@ -92,10 +94,26 @@ class _MyAppState extends State<MyApp> {
   void _calculateFinalScore() {
     setState(() {
       _finalScore = (_userScore / _questions.length) * 10;
-      _currentScreen = 'info';
+      if (_finalScore! >= 8) {
+        rank = 'ELITE';
+      }
+      else if (_finalScore!>= 5) {
+        rank = 'Cultured';
+      }
+      else {
+        rank = 'Noob';
+      }
+      _currentScreen = 'results';
     });
     print('User answered $_userScore questions correctly.');
     print('Final score: ${_finalScore?.toStringAsFixed(1)} / 10');
+  }
+
+  void resetApp(){
+    setState(() {
+      resetQuiz();
+      _currentScreen = 'info';
+    });
   }
 
   void resetQuiz() {
@@ -108,7 +126,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Widget screen;
-    if (_currentScreen == 'quiz') {
+    if (_currentScreen == 'results'){
+      screen = ResultScreen(
+        rank: rank!,
+        userName: _userName ?? 'Player',
+        userScore: _userScore,
+        totalQuestions: _questions.length,
+        onPlayAgain: resetApp,
+      );
+    }
+    else if (_currentScreen == 'quiz') {
       screen = QuizScreen(
         userName: _userName ?? 'Player',
         questions: _questions,

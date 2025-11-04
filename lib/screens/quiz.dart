@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:techguess/main.dart'; // Import to use the 'Question' class
+import 'package:techguess/main.dart';
 import 'package:techguess/utils/colors.dart';
 import 'package:techguess/widgets/appbar.dart';
 
 class QuizScreen extends StatefulWidget {
   final String userName;
   final List<Question> questions;
-  final VoidCallback onQuizComplete; // Function to call when quiz ends
-  final VoidCallback onAnswerCorrect; // Function to call for a correct answer
+  final VoidCallback onQuizComplete;
+  final VoidCallback onAnswerCorrect;
 
   const QuizScreen({
     super.key,
@@ -26,7 +26,7 @@ class _QuizScreenState extends State<QuizScreen> {
   late PageController _pageController;
   int _currentQuestionIndex = 0;
   int?
-  _selectedChoiceIndex; // Tracks the user's choice for the current question
+  _selectedChoiceIndex;
 
   @override
   void initState() {
@@ -40,25 +40,20 @@ class _QuizScreenState extends State<QuizScreen> {
     super.dispose();
   }
 
-  // Called when the user taps a choice
   void _handleAnswer(int choiceIndex) {
-    // Prevent changing the answer after selecting one
     if (_selectedChoiceIndex != null) return;
 
     setState(() {
       _selectedChoiceIndex = choiceIndex;
     });
 
-    // Check if the answer is correct and call the callback from main.dart
     if (choiceIndex ==
         widget.questions[_currentQuestionIndex].correctChoiceIndex) {
       widget.onAnswerCorrect();
     }
 
-    // Wait a moment before automatically scrolling to the next question
     Future.delayed(const Duration(milliseconds: 800), () {
       if (_currentQuestionIndex < widget.questions.length - 1) {
-        // Move to the next page
         _pageController.nextPage(
           duration: const Duration(milliseconds: 400),
           curve: Curves.easeInOut,
@@ -81,15 +76,13 @@ class _QuizScreenState extends State<QuizScreen> {
             colors: [Color(0xFF2D2D3A), Color(0xFF1F1F26)],
           ),
         ),
-        // PageView handles horizontal scrolling
         child: PageView.builder(
           controller: _pageController,
-          // Disable manual swiping
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: (index) {
             setState(() {
               _currentQuestionIndex = index;
-              _selectedChoiceIndex = null; // Reset choice for the new question
+              _selectedChoiceIndex = null;
             });
           },
           itemCount: widget.questions.length,
@@ -102,16 +95,14 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  // Builds the UI for a single question
   Widget _buildQuestionCard(Question question) {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 33.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // The Question Card ---
           Container(
-            margin: const EdgeInsets.only(top: 33.0), // Give it some space from the top
+            margin: const EdgeInsets.only(top: 33.0),
             decoration: ShapeDecoration(
               shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(55.0),
@@ -149,7 +140,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     'Difficulty: ${question.difficulty}',
                     style: GoogleFonts.dmSans(
                       color: Colors.white,
-                      fontSize: 10,
+                      fontSize: 14,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -158,7 +149,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     question.text,
                     style: GoogleFonts.dmSans(
                       color: Colors.white,
-                      fontSize: 15,
+                      fontSize: 16,
                       height: 1.4,
                     ),
                   ),
@@ -185,11 +176,9 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
           ),
 
-          // --- Part 2: The Choice Buttons ---
-          // This section is now outside the question card, but inside the main Column.
+
           const SizedBox(height: 33),
 
-          // 1. ADD THE NEW CONTAINER WRAPPER HERE
           Container(
             padding: const EdgeInsets.all(15.0),
             decoration: ShapeDecoration(
@@ -227,7 +216,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Widget _buildChoiceButton({required String text, required int index}) {
     Color buttonColor = secondColor;
-    bool isSelected = _selectedChoiceIndex == index; // <-- CORRECTED
+    bool isSelected = _selectedChoiceIndex == index;
     bool isCorrect =
         index == widget.questions[_currentQuestionIndex].correctChoiceIndex;
 
@@ -235,7 +224,7 @@ class _QuizScreenState extends State<QuizScreen> {
       if (isSelected) {
         buttonColor = isCorrect ? Colors.green.shade700 : Colors.red.shade700;
       } else if (isCorrect) {
-        buttonColor = Colors.green.shade700; // Show the correct answer
+        buttonColor = Colors.green.shade700;
       }
     }
 

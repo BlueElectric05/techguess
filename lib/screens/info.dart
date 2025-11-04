@@ -91,7 +91,7 @@ class InfoScreen extends StatelessWidget {
                     'This is a multiple choice quiz app made to test how deep you are in the tech community, the questions consists on multiple tech brands and what stuff are they producing. Each question consists of 5 different choices, ranging from A to E.',
                     style: GoogleFonts.dmSans(
                       color: Colors.white,
-                      fontSize: 15,
+                      fontSize: 16,
                       height: 1.5,
                     ),
                   ).animate().fadeIn(delay: 100.ms),
