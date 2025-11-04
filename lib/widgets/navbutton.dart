@@ -26,7 +26,7 @@ class NavButton extends StatelessWidget {
           ),
         ),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 65, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           decoration: ShapeDecoration(
             color: mainColor,
             shape: ContinuousRectangleBorder(

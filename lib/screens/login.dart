@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildInfoCard() {
     return Container(
           margin: const EdgeInsets.symmetric(horizontal: 33),
-          padding: const EdgeInsets.all(38.0),
+          padding: const EdgeInsets.all(30.0),
           decoration: ShapeDecoration(
             color: mainColor,
             shape: ContinuousRectangleBorder(

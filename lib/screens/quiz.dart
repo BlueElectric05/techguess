@@ -110,7 +110,7 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             child: Container(
-              padding: const EdgeInsets.all(38.0),
+              padding: const EdgeInsets.all(30.0),
               decoration: ShapeDecoration(
                 color: mainColor,
                 shape: ContinuousRectangleBorder(
@@ -180,6 +180,7 @@ class _QuizScreenState extends State<QuizScreen> {
           const SizedBox(height: 33),
 
           Container(
+            margin: EdgeInsets.only(bottom: 30),
             padding: const EdgeInsets.all(15.0),
             decoration: ShapeDecoration(
               shape: ContinuousRectangleBorder(
